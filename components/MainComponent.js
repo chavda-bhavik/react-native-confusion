@@ -12,6 +12,9 @@ import About from './AboutComponent';
 import Contact from './ContactUsComponent';
 import Dishdetail from './DishDetailComponent';
 
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from "../redux/ActionCreators";
+import { connect } from 'react-redux';
+
 const HomeNavigator = createStackNavigator({
   Home: { screen: Home }
 }, {
@@ -154,6 +157,12 @@ contentComponent: CustomDrawerContentComponent
 
 
 class Main extends Component {
+  componentDidMount() {
+    this.props.fetchDishes();
+    this.props.fetchComments();
+    this.props.fetchLeaders();
+    this.props.fetchPromos();
+  }
   render() {
     return (
       <View style={{flex:1, paddingTop: 10 }}>
@@ -186,5 +195,12 @@ const styles = StyleSheet.create({
     height: 60
   }
 });
-  
-export default Main;
+
+const mapDispatchToProps = dispatch => ({
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchComments: () => dispatch(fetchComments()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+  fetchPromos: () => dispatch(fetchPromos())
+})
+
+export default connect(null, mapDispatchToProps)(Main);
