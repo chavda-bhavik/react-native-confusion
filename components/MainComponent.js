@@ -10,6 +10,7 @@ import Home from './HomeComponent';
 import About from './AboutComponent';
 import Contact from './ContactUsComponent';
 import Dishdetail from './DishDetailComponent';
+import AddComment from './AddCommentComponent';
 import Reservation from './ReservationComponent';
 
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from "../redux/ActionCreators";
@@ -94,7 +95,8 @@ const MenuNavigator = createStackNavigator({
                   />
         })
       },
-  Dishdetail: { screen: Dishdetail }
+  Dishdetail: { screen: Dishdetail },
+  AddComment: { screen: AddComment }
 },{
   initialRouteName: 'Menu',
   navigationOptions: {
@@ -178,8 +180,8 @@ const MainNavigator = createAppContainer(createDrawerNavigator({
       }, 
     }    
 }, {
-drawerBackgroundColor: '#D1C4E9',
-contentComponent: CustomDrawerContentComponent
+  drawerBackgroundColor: '#D1C4E9',
+  contentComponent: CustomDrawerContentComponent
 }));
 
 class Main extends Component {

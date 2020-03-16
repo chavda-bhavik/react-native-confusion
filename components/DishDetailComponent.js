@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, ScrollView, FlatList } from "react-native";
-import { Card, Icon } from "react-native-elements";
+import { Card, Icon, Rating } from "react-native-elements";
 
 import { connect } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
@@ -25,14 +25,26 @@ const RenderDish = (props) => {
                 image={{ uri: baseUrl+dish.image }}
                 >
                 <Text style={{ margin:10 }} >{dish.description}</Text>
-                <Icon 
-                    raised 
-                    reverse 
-                    name={ props.favorite ? 'heart' : 'heart-o' }
-                    type='font-awesome' 
-                    color='#f50' 
-                    onPress={() => props.favorite ? console.log('Already Favorite') : props.onPress() } 
-                />
+                <View style={{ height:100, alignContent:'center', justifyContent:'center' }}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Icon 
+                            raised 
+                            reverse 
+                            name={ props.favorite ? 'heart' : 'heart-o' }
+                            type='font-awesome' 
+                            color='#f50' 
+                            onPress={() => props.favorite ? console.log('Already Favorite') : props.onPress() } 
+                        />
+                        <Icon 
+                            raised 
+                            reverse 
+                            name='pencil'
+                            type='font-awesome' 
+                            color='purple' 
+                            onPress={() => props.navigate('AddComment', { dishId: dish.id } ) } 
+                        />
+                    </View>
+                </View>            
             </Card>
     else 
         return <View />
@@ -41,9 +53,10 @@ const RenderComments = (props) => {
     const comments = props.comments;
     const renderCommentItem = ({item,index}) => {
         return (
-            <View key={index} style={{margin:10}}>
+            <View key={index} style={{margin:10, alignItems:'flex-start', }}>
                 <Text style={{fontSize:14}}>{item.comment}</Text>
-                <Text style={{fontSize:12}}>{item.rating} Stars</Text>
+                <Rating imageSize={10} readonly startingValue={item.rating} />
+                {/* <Text style={{fontSize:12}}>{item.rating} Stars</Text> */}
                 <Text style={{fontSize:12}}>{'-- '+item.author+', '+new Intl.DateTimeFormat('en-US',{ year:'numeric',month:'short',day:'2-digit'}).format(new Date(Date.parse(item.date))) }</Text>
             </View>
         )
@@ -64,12 +77,14 @@ class DishDetail extends Component {
     }
     render() {
         const dishId = this.props.navigation.getParam('dishId','')
+        const { navigate } = this.props.navigation
         return (
             <ScrollView>
                 <RenderDish 
                     dish={this.props.dishes.dishes[+dishId]} 
                     favorite={ this.props.favorites.some(el => el === dishId) }
                     onPress={ () => this.markFavorite(dishId) }
+                    navigate={ navigate }
                 />
                 <RenderComments comments={this.props.comments.comments.filter( comment => comment.dishId === dishId)} />
             </ScrollView>

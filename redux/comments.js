@@ -8,6 +8,15 @@ const initialState = {
 
 export const comments = (state = initialState, action) => {
     switch (action.type) {
+        case ActionTypes.ADD_COMMENT:
+            console.log(action.payload);
+            return {
+                ...state,
+                comments: state.comments.concat({
+                    id: state.comments.length+1,
+                    ...action.payload
+                })
+            }
         case ActionTypes.ADD_COMMENTS:
             return {
                 ...state,
