@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createAppContainer, SafeAreaView } from 'react-navigation';
 import{ Icon } from 'react-native-elements'
+import * as Animatable from 'react-native-animatable'
 
 import Menu from './MenuComponent';
 import Home from './HomeComponent';

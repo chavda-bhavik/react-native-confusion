@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, ScrollView, FlatList, StyleSheet } from "react-native";
 import { Card, Icon, Rating, Input, Button } from "react-native-elements";
+import * as Animatable from 'react-native-animatable'
 
 import { connect } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
@@ -21,7 +22,8 @@ const mapDispatchToProps = dispatch => ({
 const RenderDish = (props) => {
     const dish = props.dish;
     if(dish)
-        return <Card
+        return <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+            <Card
                 featuredTitle={dish.name}
                 image={{ uri: baseUrl+dish.image }}
                 >
@@ -47,6 +49,7 @@ const RenderDish = (props) => {
                     </View>
                 </View>            
             </Card>
+        </Animatable.View>
     else 
         return <View />
 }
@@ -104,7 +107,9 @@ class DishDetail extends Component {
                     onPress={ () => this.markFavorite(dishId) }
                     toggleCommentDialog={ () => this.toggleCommentDialog() }
                 />
-                <RenderComments comments={this.props.comments.comments.filter( comment => comment.dishId === dishId)} />
+                <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
+                    <RenderComments comments={this.props.comments.comments.filter( comment => comment.dishId === dishId)} />
+                </Animatable.View>
             </ScrollView>
         )
         if(this.state.addComment) {
