@@ -29,6 +29,12 @@ const RenderDish = (props) => {
         else 
             return false;
     }
+    const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+        if( dx > 200) 
+            return true;
+        else 
+            return false;
+    }
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (e, gesture) => {
             return true;
@@ -38,7 +44,7 @@ const RenderDish = (props) => {
                 .then(endState => console.log(endState.finished ? 'finished' : 'cancelled'))
         },
         onPanResponderEnd: (e, gestureState) => {
-            if(recognizeDrag(gestureState)) 
+            if(recognizeDrag(gestureState)) {
                 Alert.alert(
                     'Add to Favorites?',
                     'Are you sure you wish to Add '+dish.name+' to your favorites',
@@ -48,6 +54,10 @@ const RenderDish = (props) => {
                     ],
                     { cancelable: false }
                 )
+            }
+            if(recognizeComment(gestureState)) {
+                props.toggleCommentDialog()
+            }
             return true;
         }
     })
@@ -153,7 +163,7 @@ class DishDetail extends Component {
                     <Rating 
                         showRating 
                         fractions={1} 
-                        startingValue="{3}"
+                        startingValue={3}
                         onFinishRating={(val) => this.setState({ rating: val})} 
                     />
                     <Input
