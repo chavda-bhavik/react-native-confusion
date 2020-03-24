@@ -14,6 +14,7 @@ import Dishdetail from './DishDetailComponent';
 import AddComment from './AddCommentComponent';
 import Reservation from './ReservationComponent';
 import Favorites from './FavoritesComponent';
+import Login from './LoginComponent';
 
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from "../redux/ActionCreators";
 import { connect } from 'react-redux';
@@ -71,6 +72,23 @@ const ReservationNavigator = createStackNavigator({
 
 const FavoritesNavigator = createStackNavigator({
   Favorites: { screen: Favorites }
+}, {
+  navigationOptions: ({ navigation }) => ({
+    headerStyle: {
+        backgroundColor: "#512DA8"
+    },
+    headerTitleStyle: {
+        color: "#fff"            
+    },
+    headerTintColor: "#fff",
+    headerLeft: <Icon name="menu" size={24} color='#4630EB' 
+                  onPress={() => navigation.toggleDrawer()}
+                />
+  })
+});
+
+const LoginNavigator = createStackNavigator({
+  Loin: { screen: Login }
 }, {
   navigationOptions: ({ navigation }) => ({
     headerStyle: {
@@ -148,6 +166,17 @@ const CustomDrawerContentComponent = (props) => (
   </ScrollView>
 )
 const MainNavigator = createAppContainer(createDrawerNavigator({
+  Login: 
+  { 
+    screen: LoginNavigator,
+    navigationOptions: {
+      title: 'Login',
+      drawerLabel: 'Login',
+      drawerIcon: ({ tintColor }) => (
+        <Icon name='sign-in' type='font-awesome' size={24} color={tintColor} />
+      )
+    }
+  },
   Home: 
     { screen: HomeNavigator,
       navigationOptions: {
@@ -214,6 +243,7 @@ const MainNavigator = createAppContainer(createDrawerNavigator({
     }, 
   }      
 }, {
+  initialRouteName: 'Home',
   drawerBackgroundColor: '#D1C4E9',
   contentComponent: CustomDrawerContentComponent
 }));
