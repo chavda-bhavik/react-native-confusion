@@ -88,8 +88,8 @@ const FavoritesNavigator = createStackNavigator({
 });
 
 const LoginNavigator = createStackNavigator({
-  Loin: { screen: Login }
-}, {
+    Login: Login
+  }, {
   navigationOptions: ({ navigation }) => ({
     headerStyle: {
         backgroundColor: "#512DA8"
@@ -97,10 +97,11 @@ const LoginNavigator = createStackNavigator({
     headerTitleStyle: {
         color: "#fff"            
     },
+    title: 'Login',
     headerTintColor: "#fff",
-    headerLeft: <Icon name="menu" size={24} color='#4630EB' 
-                  onPress={() => navigation.toggleDrawer()}
-                />
+    headerLeft: <Icon name="menu" size={24}
+      iconStyle={{ color: 'white' }} 
+      onPress={ () => navigation.toggleDrawer() } />    
   })
 });
 
