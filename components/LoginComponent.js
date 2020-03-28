@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { Input, CheckBox, Button, Icon } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
-import { Permissions, ImagePicker, Asset, ImageManipulator } from 'expo';
+import { Permissions, Asset, ImageManipulator } from 'expo';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { baseUrl } from '../shared/baseUrl';
+import * as ImagePicker from 'expo-image-picker';
 
 class LoginTab extends Component {
 
@@ -116,6 +117,7 @@ class LoginTab extends Component {
     }
 
 }
+
 class RegisterTab extends Component {
 
     constructor(props) {
@@ -142,6 +144,17 @@ class RegisterTab extends Component {
             if(!capturedImage.cancelled) {
                 this.processImage( capturedImage.uri )
             }
+        }
+    }
+    getImageFromGallary = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
+          });
+          if (!result.cancelled) {
+            this.processImage(result.uri);
         }
     }
     processImage = async (imageUri) => {
@@ -179,12 +192,16 @@ class RegisterTab extends Component {
                     <Image 
                         source={{uri: this.state.imageUrl}} 
                         loadingIndicatorSource={require('./images/logo.png')}
-                        style={styles.image} 
-                        />
+                        style={styles.image}
+                    />
                     <Button
                         title="Camera"
                         onPress={this.getImageFromCamera}
-                        />
+                    />
+                    <Button
+                        title="Gallary"
+                        onPress={this.getImageFromGallary}
+                    />
                 </View>
                 <Input
                     placeholder="Username"
@@ -252,9 +269,9 @@ class RegisterTab extends Component {
 
 const styles = StyleSheet.create({
     imageContainer: {
-        flex: 1,
         flexDirection: 'row',
-        margin: 20
+        alignItems: "center",
+        justifyContent: "space-around"
     },
     image: {
         margin: 10,

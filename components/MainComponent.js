@@ -257,6 +257,7 @@ class Main extends Component {
     this.props.fetchPromos();
     NetInfo.getConnectionInfo()
       .then( info => {
+        // ToastAndroid.show("A pikachu appeared nearby !", ToastAndroid.SHORT);
         ToastAndroid.show(
           'Initial network Connectivity Type: '+info.type+', effectiveType: '+info.effectiveType,
           ToastAndroid.LONG

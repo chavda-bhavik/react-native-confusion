@@ -5,6 +5,7 @@ import { Component } from 'react';
 import * as Animatable from 'react-native-animatable'
 import { Card } from 'react-native-elements';
 import { Permissions, Notifications } from 'expo'
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
     state = {
@@ -45,6 +46,7 @@ class Reservation extends Component {
                     text: 'OK', 
                     onPress: () => {
                         this.presentLocalNotification(this.state.date);
+                        this.addReservationToCalendar(this.state.date);
                         this.resetForm();
                     }
                 },
@@ -52,6 +54,24 @@ class Reservation extends Component {
             { cancelable: false }
           )
         //this.toggleModal()
+    }
+    async obtainCalenderPermission() {
+        const { status } = await Calendar.requestCalendarPermissionsAsync();
+        if (status === 'granted') {
+            return true
+        }
+        return false;        
+    }
+    async addReservationToCalendar(date) {
+        if(this.obtainCalenderPermission()) {
+            Calendar.createEventAsync(Calendar.DEFAULT, {
+                title: 'Con Fusion Table Reservation',
+                timeZone: 'Asia/Hong_Kong',
+                startDate: Date(Date.parse(date)),
+                endDate: Date(Date.parse(date) * (2*60*60*1000)),
+                location: '121, Clear Water Bay Road, Clear Water Bay, Knwloon, Hong Kong'
+            })
+        }
     }
     resetForm() {
         this.setState({
